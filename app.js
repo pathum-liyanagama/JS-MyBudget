@@ -31,21 +31,31 @@ var UIController = (function () {
 
 var appController = (function (budgetCtrlr, UIContrlr) {
 
-    var DOMstrings = UIContrlr.getDOMstrings();
+    var initEventListners = function () {
+        var DOMstrings = UIContrlr.getDOMstrings();
+
+        document.querySelector(DOMstrings.btnAdd).addEventListener('click', ctrlAddItem);
+
+        document.addEventListener('keypress', function (e) {
+
+            if (e.keyCode === 13 || e.which === 13) {
+                ctrlAddItem();
+            }
+        })
+    }
 
     var ctrlAddItem = function () {
         var inputs = UIContrlr.getInput();
         console.log(inputs);
     }
 
-    document.querySelector(DOMstrings.btnAdd).addEventListener('click', ctrlAddItem);
+    return {
+        init: initEventListners
+    }
 
-    document.addEventListener('keypress', function (e) {
 
-        if (e.keyCode === 13 || e.which === 13) {
-            ctrlAddItem();
-        }
-    })
 
 })(budgetController, UIController);
+
+appController.init();
 
