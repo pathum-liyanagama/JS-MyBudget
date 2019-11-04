@@ -1,5 +1,5 @@
 var budgetController = (function () {
-    var Expense = function (id,description, value) {
+    var Expense = function (id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
@@ -26,18 +26,18 @@ var budgetController = (function () {
         }
     }
 
-    
+
 
     return {
         addItem: function (type, desc, val) {
             var newItem;
             if (type === "exp") {
-                newItem = new Expense(data.allItems.expID, desc, val)              
+                newItem = new Expense(data.allItems.expID, desc, val)
             } else if (type === 'inc') {
                 newItem = new Income(data.allItems.incID, desc, val)
             }
             data.allItems[type].push(newItem);
-            data.allItems[type+"ID"] += 1;
+            data.allItems[type + "ID"] += 1;
             data.totals[type] += val;
 
             return newItem;
@@ -72,10 +72,10 @@ var UIController = (function () {
             return DOMstrings
         },
 
-        addItemToUI: function(item){
+        addItemToUI: function (item) {
             var html, listClass;
 
-            if(item.type === 'exp'){
+            if (item.type === 'exp') {
                 html = `
                 <div class="item clearfix" id="expense-%id%">
                     <div class="item__description">%desc%</div>
@@ -87,7 +87,7 @@ var UIController = (function () {
                         </div>
                     </div>
                 </div>`;
-                
+
                 html = html.replace('%id%', item.id);
                 html = html.replace('%desc%', item.description);
                 html = html.replace('%val%', item.value);
@@ -96,7 +96,7 @@ var UIController = (function () {
                 listClassDOM.insertAdjacentHTML('beforeend', html);
 
             }
-            else{
+            else {
                 html = `
                 <div class="item clearfix" id="income-%id%">
                     <div class="item__description">%desc%</div>
@@ -111,10 +111,23 @@ var UIController = (function () {
                 html = html.replace('%id%', item.id);
                 html = html.replace('%desc%', item.description);
                 html = html.replace('%val%', item.value);
-                
+
                 listClassDOM = document.querySelector(DOMstrings.incomeList);
                 listClassDOM.insertAdjacentHTML('beforeend', html);
             }
+        },
+
+        clearInputFields: function () {
+            var inputFieldsNode, inputFieldsArray
+
+            inputFieldsNode = document.querySelectorAll(DOMstrings.inputDescription + ","
+                + DOMstrings.inputValue);
+
+            inputFieldsArray = Array.prototype.slice.call(inputFieldsNode);
+
+            inputFieldsArray.forEach(function (element) {
+                element.value = "";
+            });
         }
     }
 
@@ -140,6 +153,7 @@ var appController = (function (budgetCtrlr, UIContrlr) {
         console.log(inputs);
         var newItem = budgetCtrlr.addItem(inputs.type, inputs.description, inputs.value);
         UIContrlr.addItemToUI(newItem);
+        UIContrlr.clearInputFields();
     }
 
     return {
