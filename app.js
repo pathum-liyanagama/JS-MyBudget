@@ -174,6 +174,11 @@ var appController = (function (budgetCtrlr, UIContrlr) {
     var init = function () {
         var DOMstrings = UIContrlr.getDOMstrings();
 
+        document.querySelector(DOMstrings.budgetValue).textContent = 0;
+        document.querySelector(DOMstrings.budgetIncome).textContent = 0;
+        document.querySelector(DOMstrings.budgetExpenses).textContent = 0;
+        document.querySelector(DOMstrings.budgetPercentage).textContent = "--";
+
         document.querySelector(DOMstrings.btnAdd).addEventListener('click', ctrlAddItem);
 
         document.addEventListener('keypress', function (e) {
@@ -183,12 +188,6 @@ var appController = (function (budgetCtrlr, UIContrlr) {
             }
         })
 
-        var DOMstrings = UIContrlr.getDOMstrings();
-
-        document.querySelector(DOMstrings.budgetValue).textContent = 0;
-        document.querySelector(DOMstrings.budgetIncome).textContent = 0;
-        document.querySelector(DOMstrings.budgetExpenses).textContent = 0;
-        document.querySelector(DOMstrings.budgetPercentage).textContent = "--";
     }
 
     var validateInputs = function (inputs) {
